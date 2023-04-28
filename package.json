@@ -1,0 +1,40 @@
+{
+  "name": "fe",
+  "version": "1.0.0",
+  "description": "FlowEr",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "author": "yaya",
+  "license": "ISC",
+  "dependencies": {
+    "@emotion/react": "latest",
+    "@emotion/styled": "latest",
+    "@material-ui/core": "^4.12.4",
+    "@mui/icons-material": "^5.11.9",
+    "@mui/material": "latest",
+    "@mui/x-data-grid-pro": "^5.17.17",
+    "axios": "^1.2.1",
+    "d3": "7.7.0",
+    "d3-svg-to-png": "^0.3.1",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-draggable": "^4.4.5",
+    "react-scripts": "latest"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
