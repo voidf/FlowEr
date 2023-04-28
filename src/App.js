@@ -1003,11 +1003,20 @@ export default function App() {
                   <SaveIcon />
                 </IconButton>
               </Tooltip>
-              <Tooltip title="Save PNG">
+              <Tooltip title="Save Main view as PNG">
                 <IconButton color="inherit"
                   onClick={(e) => {
                     const d3ToPng = require('d3-svg-to-png');
-                    d3ToPng('#mainsvg', 'name');
+                    d3ToPng('#mainsvg', getProj());
+                  }}>
+                  <FileDownloadIcon />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Save Second graph as PNG">
+                <IconButton color="inherit"
+                  onClick={(e) => {
+                    const d3ToPng = require('d3-svg-to-png');
+                    d3ToPng('#secondsvg', getProj());
                   }}>
                   <FileDownloadIcon />
                 </IconButton>
