@@ -79,15 +79,6 @@ The file size of each arch is shown below:
 
 | arch | size |
 | -- | -- |
-|resnet56_noshort| 3.26M |
-|resnet56| 3.28M |
-|resnet20_noshort| 1.03M |
-|resnet20| 1.04M |
-|resnet110_noshort| 6.62M |
-|resnet110| 6.63M |
-|vgg9| 10.6M |
-|vgg16| 57.2M |
-|densenet121| 26.8M |
 |lenet| 324K |
 |cnn12| 3.01M |
 |cnn24| 6.02M |
@@ -96,6 +87,15 @@ The file size of each arch is shown below:
 |cnn96| 24.0M |
 |cnn48x2| 3.25M |
 |cnn48x3| 1.22M |
+|resnet20_noshort| 1.03M |
+|resnet20| 1.04M |
+|resnet56_noshort| 3.26M |
+|resnet56| 3.28M |
+|resnet110_noshort| 6.62M |
+|resnet110| 6.63M |
+|vgg9| 10.6M |
+|vgg16| 57.2M |
+|densenet121| 26.8M |
 |effnet_s| 78.1M |
 
 We plot these trajectories using PCA:
@@ -118,3 +118,33 @@ We plot these trajectories using PCA:
 |VGG-9|![](img/pca/tn13.png)|
 |VGG-16|![](img/pca/V16_03.png)|
 |DenseNet-121|![](img/pca/D121_07.png)|
+|EfficientNet-s|![](img/pca/EF_03.png)|
+
+Concated picture:
+
+![](img/pca/concated.png)
+
+Train loss:
+
+![](img/tl/trainloss.png)
+
+We plot some of these trajectories using t-SNE (we cannot plot others due to memory limit):
+
+t-SNE arguments: 
+- perplexity: 10
+- iteration: 3000
+
+| arch | plot |
+| -- | -- |
+|CNN-12|![](img/t1/CN12_03.png)|
+|CNN-24|![](img/t1/CN24_03.png)|
+|CNN-36|![](img/t1/CN36_03.png)|
+|CNN-48x2|![](img/t1/CN48x2_03.png)|
+|CNN-48x3|![](img/t1/CN48x3_03.png)|
+|CNN-48x3|![](img/t1/CN48x3_03.png)|
+
+An interesting picture of EfficientNet-s (the label above pink line indicates the euclidean distance between the points):
+
+![](img/ef_dist.png)
+
+The t-sne projected plot indicated the training trajectory may looks like a triangular frustum
