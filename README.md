@@ -100,7 +100,7 @@ The file size of each arch is shown below:
 
 We plot these trajectories using PCA:
 
-| arch | plot |
+<!-- | arch | plot |
 | -- | -- |
 |LeNet|![](img/pca/LE.png)|
 |CNN-12|![](img/pca/CNN12.png)|
@@ -118,9 +118,9 @@ We plot these trajectories using PCA:
 |VGG-9|![](img/pca/tn13.png)|
 |VGG-16|![](img/pca/V16_03.png)|
 |DenseNet-121|![](img/pca/D121_07.png)|
-|EfficientNet-s|![](img/pca/EF_03.png)|
+|EfficientNet-s|![](img/pca/EF_03.png)| -->
 
-Concated picture:
+<!-- Concated picture: -->
 
 ![](img/pca/concated.png)
 
@@ -136,15 +136,21 @@ t-SNE arguments:
 
 | arch | plot |
 | -- | -- |
-|CNN-12|![](img/t1/CN12_03.png)|
-|CNN-24|![](img/t1/CN24_03.png)|
-|CNN-36|![](img/t1/CN36_03.png)|
-|CNN-48x2|![](img/t1/CN48x2_03.png)|
-|CNN-48x3|![](img/t1/CN48x3_03.png)|
-|CNN-48x3|![](img/t1/CN48x3_03.png)|
+|CNN-12|![](img/tsne1/CN12_03.png)|
+|CNN-24|![](img/tsne1/CN24_03.png)|
+|CNN-36|![](img/tsne1/CN36_03.png)|
+|CNN-48x2|![](img/tsne1/CN48x2_03.png)|
+|CNN-48x3|![](img/tsne1/CN48x3_03.png)|
+|CNN-48x3|![](img/tsne1/CN48x3_03.png)|
+
+We projected these trajectories to 50d using PCA and then use t-SNE:
+
+![](img/tsne2.png)
 
 An interesting picture of EfficientNet-s (the label above pink line indicates the euclidean distance between the points):
 
 ![](img/ef_dist.png)
 
-The t-sne projected plot indicated the training trajectory may looks like a triangular frustum
+The t-sne projected plot indicated the training trajectory may looks like a triangular frustum.
+
+~~靠，图好多，哥们摆了，自己去img文件夹看~~
