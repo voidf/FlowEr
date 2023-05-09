@@ -18,6 +18,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import CheckIcon from '@mui/icons-material/Check';
 import LinearScaleIcon from '@mui/icons-material/LinearScale';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import RefreshIcon from '@mui/icons-material/Refresh';
 import {
   CircleNormal, LineNormal, TextCircleLabel, TextDistanceLabel, RectNormal, AxisNormal,
   ensureRenderSlots, ensureEmptySlot, ensureAllEmptySlot,
@@ -62,6 +63,7 @@ export default function App() {
   });
 
   const [state_projectList, setState_projectList] = React.useState([]); // 项目表
+  const [state_incrementalPCA, setState_incrementalPCA] = React.useState(0);
 
   // const [proj, setProj] = React.useState('');
 
@@ -97,21 +99,16 @@ export default function App() {
   const [state_floatingBoxX, setState_floatingBoxX] = React.useState(0);
   const [state_floatingBoxY, setState_floatingBoxY] = React.useState(0);
   const [state_floatingBoxOpacity, setState_floatingBoxOpacity] = React.useState(0);
-  const [state_lockRefs, setState_lockRefs] = React.useState(undefined);
+  // const [state_lockRefs, setState_lockRefs] = React.useState(undefined);
+  function setState_lockRefs() {
+    refs.current.lock_spi = true;
+  }
   //
   const [state_snapshots, setState_snapshots] = React.useState([]);
   const [state_clampCount, setState_clampCount] = React.useState('3');
 
   const floatingBoxWidth = 300;
 
-  // 这个函数不会被重新渲染，它的状态必须记在ref里
-  function hoverObject(e, dict, opa = 1, forced = false) {
-    if (!forced && refs.current.lock_spi) return;
-    setState_floatingBoxX(e.clientX);
-    setState_floatingBoxY(e.clientY);
-    setState_hoverInfo(dict);
-    setState_floatingBoxOpacity(opa);
-  }
 
   /*  会失焦
   function PairText({ l1, o1, s1, f1, l2, o2, s2, f2 }) {
@@ -172,6 +169,16 @@ export default function App() {
   const refs = React.useRef({ su: [], xfunc: null, yfunc: null, select01: [], circles: null });
   const lossgraph_component = React.useRef();
   const r2 = React.useRef({});
+
+  // 这个函数不会被重新渲染，它的状态必须记在ref里
+  function hoverObject(e, dict, opa = 1, forced = false) {
+    if (!forced && refs.current.lock_spi) return;
+    setState_floatingBoxX(e.clientX);
+    setState_floatingBoxY(e.clientY);
+    setState_hoverInfo(dict);
+    setState_floatingBoxOpacity(opa);
+  }
+
 
   function updateProj(a) { refs.current.proj = a; }
   function getProj() { return refs.current.proj; }
@@ -469,6 +476,7 @@ export default function App() {
 
   return (
     <Container maxWidth="false">
+      {/* 浮窗组件体 */}
       {state_floatingBoxOpacity === 1 && state_hoverInfo && <Draggable>
         <Box sx={{
           position: 'fixed',
@@ -494,7 +502,7 @@ export default function App() {
                     // verticalAlign: 'right'
                   }}
                   onClick={_ => {
-                    state_lockRefs.current.lock_spi = undefined;
+                    refs.current.lock_spi = undefined; // 直接用refs代理，不需要和r2分开考虑
                     setState_hoverInfo({ id: -1 }); // 浮窗的X被点击
                     setState_selectedPointInfo(null);
                     setState_floatingBoxOpacity(0);
@@ -641,20 +649,26 @@ export default function App() {
           <Container maxWidth="false">
 
             <Stack direction="row" sx={{ my: 1 }}>
-              <Box align='left' sx={{ flexDirection: 'row', flex: .5, m: 1 }}>
-                <FormControl variant="standard" fullWidth>
-                  <InputLabel variant="standard">
-                    Project
-                  </InputLabel>
-                  <Select
-                    onChange={(event) => { updateProj(event.target.value); requestProjData(refs, () => initSvg(d3.select(ref_component.current), refs)) }}
-                  >
-                    {
-                      state_projectList.map((x) => (<MenuItem key={x} value={x}>{x}</MenuItem>))
-                    }
-                  </Select>
-                </FormControl>
-              </Box>
+              <FormControl variant="standard" sx={{  width: "35%"}}>
+                <InputLabel variant="standard">
+                  Project
+                </InputLabel>
+                <Select
+                  onChange={(event) => { updateProj(event.target.value); requestProjData(refs, () => initSvg(d3.select(ref_component.current), refs)); }}
+                >
+                  {
+                    state_projectList.map((x) => (<MenuItem key={x} value={x}>{x}</MenuItem>))
+                  }
+                </Select>
+              </FormControl>
+              <TextField
+                size='small'
+                fullWidth
+                sx={{ my: 1, ml: 1,  width: "65%" }}
+                label={parseInt(state_incrementalPCA) > 0 ? "incremental PCA batch" : "incremental PCA disabled"}
+                variant="outlined"
+                value={state_incrementalPCA}
+                onChange={e => setState_incrementalPCA(e.target.value)} />
 
             </Stack>
 
@@ -792,7 +806,8 @@ export default function App() {
                   onClick={(e) => {
                     axios.post(API('/pca'), {
                       proj: getProj(),
-                      selection: refs.current.su
+                      selection: refs.current.su,
+                      incr: state_incrementalPCA
                     }).then(resp => {
                       // console.log('pca done');
                       console.log(resp);
@@ -810,12 +825,15 @@ export default function App() {
                   <TimelineIcon />
                 </IconButton>
               </Tooltip>
+
               <Tooltip title="T-SNE Projection">
                 <IconButton color="inherit"
                   onClick={(e) => {
                     axios.post(API('/tsne'), {
                       proj: getProj(),
-                      selection: refs.current.su
+                      selection: refs.current.su,
+                      incr: state_incrementalPCA
+
                     }).then(resp => {
                       // console.log('pca done');
                       // console.log(resp.data);
@@ -836,7 +854,8 @@ export default function App() {
                   onClick={(e) => {
                     axios.post(API('/tsne?pre_pca=0'), {
                       proj: getProj(),
-                      selection: refs.current.su
+                      selection: refs.current.su,
+                      incr: state_incrementalPCA
                     }).then(resp => {
                       // console.log('pca done');
                       // console.log(resp.data);
@@ -1001,6 +1020,14 @@ export default function App() {
                     });
                   }}>
                   <SaveIcon />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Refresh">
+                <IconButton color="inherit"
+                  onClick={(e) => {
+                    requestProjData(refs, () => initSvg(d3.select(ref_component.current), refs));
+                  }}>
+                  <RefreshIcon />
                 </IconButton>
               </Tooltip>
               <Tooltip title="Save Main view as PNG">
