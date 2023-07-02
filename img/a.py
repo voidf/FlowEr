@@ -4,11 +4,11 @@ import os
 import re
 
 
-IMAGES_PATH = r'sin/ef/'  # 图片集地址
+IMAGES_PATH = r'tsne2/'  # 图片集地址
 # IMAGES_PATH = r'C:\Users\Administrator\Documents\csu-thesis\images\gd\cmp' + '\\'  # 图片集地址
 IMAGES_FORMAT = ['.png']  # 图片格式
 IMAGE_SIZE = [0, 0]  # 每张小图片的大小
-IMAGE_ROW = 1 # 图片间隔，也就是合并成一张图后，一共有几行
+IMAGE_ROW = 6 # 图片间隔，也就是合并成一张图后，一共有几行
 IMAGE_COLUMN = 3  # 图片间隔，也就是合并成一张图后，一共有几列
 IMAGE_SAVE_PATH = r'A.png'  # 图片转换后的地址
  
